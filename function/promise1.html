@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>promise</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    const PENDING = 'pending';
+    const RESOLVED = 'resolved';
+    const REJECTED = 'rejected';
+
+    function MyPromise(fn){
+        const that = this
+        that.state = PENDING
+        that.value = null
+        that.resolvedCallbacks = []
+        that.rejectedCallbacks = []
+
+
+        function resolve(value){
+            console.log("i am resolve"+value)
+            if ( that.state === PENDING ) {
+                that.state = RESOLVED
+                that.value = value
+                that.resolvedCallbacks.map( cb => cb(that.value) )
+            }
+        }
+
+        function reject(value){
+            console.log("i am reject"+value)
+            if( that.state === PENDING ){
+                that.state = REJECTED
+                that.value = value
+                that.rejectedCallbacks.map( cb => cb(that.value) )
+            }
+        }
+
+        try {            
+            fn( resolve,reject )
+        } catch (e){
+            reject(e)
+        }
+
+    }
+
+    
+   
+
+    MyPromise.prototype.then = function(onFulfilled, onRejected){
+        debugger
+        const that = this
+        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v
+        onRejected = typeof onRejected === 'function' ? onRejected : r => { throw r }
+
+        if( that.state === PENDING ) {
+            that.resolvedCallbacks.push( onFulfilled )
+            that.rejectedCallbacks.push( onRejected )
+        }
+
+        if( that.state === RESOLVED ){
+            onFulfilled( that.value ) 
+        }
+
+        if( that.state === REJECTED ){
+            onRejected( that.value )
+        }
+        return that
+    }
+
+    var o = new MyPromise((a,b)=>{       
+        console.log("11111")
+        setTimeout( function(){
+            b(21)
+        },1000 )
+    }).then(value=>{
+        console.log(value)
+    },value =>{
+        console.log(`reject ${value}`)
+    }).then(value=>{
+        console.log("fdf"+value)
+    },value =>{
+        console.log(`reject ${value}`)
+    });
+
+
+    // new MyPromise( (resolve, reject) => {
+    //     setTimeout( ()=> {
+    //         resolve(1)
+    //     }, 0)
+    // }).then( value => {
+    //     console.log(value)
+    // })
+
+    </script>
+</body>
+
+</html>

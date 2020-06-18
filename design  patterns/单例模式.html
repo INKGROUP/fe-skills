@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" id="login">Login</button>
+    <button type="button" id="iframe">iframe</button>
+
+    <script type="text/javascript">
+        /**
+         * 登录框只能有一个，登录弹层(__div)封装在闭包中，可以避免全局污染,保证弹层的唯一性
+         */
+        let createLayer = (function(){
+            let __div;
+
+            return function(){
+                if( !__div ){
+                    __div = document.createElement("div");
+                    __div.innerHTML = "登录";
+                    __div.style.display = "none";
+                    document.body.appendChild(__div);
+                }
+                
+                return __div
+            }            
+        })()
+
+
+        // document.getElementById("login").onclick = function(){
+        //     let loginLayer = createLayer();
+        //     loginLayer.style.display = "block";
+        // };
+
+        //管理实例
+        let getSingle = ( fn ) => { 
+            let result; 
+            return function(){ 
+                return result || ( result = fn.apply(this, arguments ) ); 
+
+                // if( !result ){
+                //     result = fn.apply(this, arguments);
+                // }
+
+                // return result
+
+            } 
+        }; 
+
+        //创建实例
+        let createLoginLayaer = () => {            
+            let __div = document.createElement("div");
+            __div.innerHTML = "登录";
+            __div.style.display = "none";
+            document.body.appendChild(__div);
+
+            return __div;
+        }
+
+        let createFrame = function(){
+            let _frame = document.createElement("iframe");            
+            document.body.appendChild( _frame );
+
+            return _frame;
+        }
+
+        let createQQLoginLayaer = getSingle( createLoginLayaer );
+        let createVidoFrame = getSingle( createFrame );
+        
+        document.getElementById("login").onclick = function(){
+            let loginLayer = createQQLoginLayaer();
+            loginLayer.style.display = "block";
+        };
+
+        document.getElementById("iframe").onclick = function(){
+            let iframeLayer = createVidoFrame();
+            iframeLayer.src = "http://www.baidu.com"
+        };
+
+    </script>
+
+</body>
+
+</html>

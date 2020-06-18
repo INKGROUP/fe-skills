@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>   
+</head>
+
+<body>
+    <script>
+    let event  = {
+        clientList:{},
+        listen:function(key, fn){
+            if( !this.clientList[key] ){
+                this.clientList[key] = [];
+            }
+            this.clientList[key].push(fn);
+        },
+        triggle:function(){
+            let key = Array.prototype.shift.call(arguments)
+            fns = this.clientList[key];
+
+            if( !fns || fns.length === 0 ){
+                return false
+            }
+
+            for(let i = 0, fn; fn = fns[i++];){
+                fn.apply(this, arguments);
+            }
+        },
+        remove:function(key,fn){
+            let fns = this.clientList[key];
+
+            if( !fns ){
+                return false;
+            }
+
+            if( !fn ){
+                fns && ( fns.length = 0 );
+            }else{
+                for(let l = fns.length-1; l>=0;l--){
+                    let _fn = fns[l];
+                    if( _fn === fn){
+                        fns.splice(l,1)
+                    }
+                }
+            }
+        }
+    }
+
+    // let installEvent = (obj) =>{
+    //     for(let i in event){
+    //         obj[i] = event[i]
+    //     }
+    // }
+
+
+    // let salesOffice = {}
+    // let webOffice = {}
+    // installEvent( webOffice )
+    // installEvent(salesOffice);
+
+    // salesOffice.listen("t1",fn1 = (price) => {
+    //     console.log(price);
+    // })
+
+    // salesOffice.triggle("t1",2000)
+
+    // salesOffice.listen("w1",fn1 = (info) => {
+    //     console.log(info);
+    // })
+
+    // salesOffice.listen("w1",fn1 = (info) => {
+    //     console.log(info);
+    // })
+    
+    // salesOffice.triggle("t1","STOP!")
+
+    </script>
+</body>
+
+</html>

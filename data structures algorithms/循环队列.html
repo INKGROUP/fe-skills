@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /**      
+     * 模拟循环队列结构
+     */
+    class CircleQueue{
+        constructor(len){
+            this.size = len
+            this.head = 0
+            this.tail = 0
+            this.queue = []
+        }
+        
+        enQueue(item){
+            if( this.isFull() ){
+                return fasle
+            }            
+            this.queue[ this.tail ] = item
+            this.tail = (this.tail + 1) % this.size            
+            return true                
+        }
+
+        deQueue(){
+            if( !this.isEmpty() ){
+                this.queue[this.head] = null
+                this.head = (this.head + 1) % this.size               
+                return true
+            } else {
+                return false
+            }
+        }
+
+        getHeader(){
+            return this.isEmpty() ? false : this.queue[this.head]
+        }
+
+        // getTail(){
+        //     return this.isEmpty() ? false : this.queue[this.tail-1]
+        // }
+
+        isFull(){
+            return ( this.tail + 1 ) % this.size === this.head
+        }
+
+        isEmpty(){
+            return this.head === this.tail
+        }
+    }
+
+    const obj = new CircleQueue(5)
+    
+  
+    </script>
+</body>
+
+</html>

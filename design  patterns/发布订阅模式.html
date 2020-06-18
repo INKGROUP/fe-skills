@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>   
+</head>
+
+<body>
+    <script>
+    let salesOffice = {};
+
+    salesOffice.clientList = {};
+
+    salesOffice.listen = function(key, fn){
+        if( !this.clientList[ key ] ){
+            this.clientList[ key ] = []; 
+        }
+        this.clientList[ key ].push(fn);
+    };
+
+    salesOffice.triggle = function(){
+        let key = Array.prototype.shift.call( arguments ),
+            fns = this.clientList[ key ];
+
+        if( !fns || fns.length  === 0){
+            return false;
+        }
+
+        for(let i = 0, fn; fn = fns[ i++ ]; ){
+            fn.apply(this, arguments);
+            //fn.apply(null,arguments)
+        }
+    };
+
+    //A订阅
+    salesOffice.listen('squareMeter88', ( price ) =>{
+        console.log("price:"+price);        
+    })
+    
+    //B订阅
+    salesOffice.listen('squareMeter100', ( price ) =>{
+        console.log("price:"+price);        
+    })
+
+    //发布
+    salesOffice.triggle('squareMeter88', 20000);
+    salesOffice.triggle('squareMeter100', 25000);
+
+    </script>
+</body>
+
+</html>

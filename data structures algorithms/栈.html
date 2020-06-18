@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /**      
+     * 模拟栈结构
+     */
+    class Stack {
+        constructor(){
+            this.stack = []
+        }
+
+        add(item){
+            this.stack.push(item)
+        }
+
+        remove(item){
+            this.stack.pop();
+        }
+
+        getCount() {
+            return this.stack.length
+        }
+
+        isEmpty(){
+            return this.stack.length === 0
+        }
+        
+    }
+
+
+    //给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+    //有效字符串需满足：
+    //左括号必须用相同类型的右括号闭合。
+    //左括号必须以正确的顺序闭合。
+
+    function isValid(str){
+        let map = {
+            '(': -1,
+            ')': 1,
+            '{': -2,
+            '}': 2,
+            '[': -3,
+            ']': 3
+        }
+        let stack = []
+        for(let i =0, len = str.length; i < len; i++){
+            if( map[str[i]]< 0 ){
+                stack.push(str[i])
+            } else {
+               let last = stack.pop()
+               if( map[last] + map[str[i]] != 0 ) return false 
+            }
+        }
+
+        if( stack.length > 0 ) return false
+
+        return true
+    }
+    
+  
+    </script>
+</body>
+
+</html>

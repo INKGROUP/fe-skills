@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /**      
+     * 模拟单向链表结构
+     */
+    class Node{
+        constructor(value,next){
+            this.value = value
+            this.next = null
+        }
+    }
+
+    class LinkList{
+        constructor(){
+            this.header = new Node('head', null)            
+        }
+
+        find(item){
+           let currNode = this.header
+           while(currNode.value !== item) {
+               currNode = currNode.next
+           } 
+           return currNode
+        }
+
+        insert(newItem, item){
+            let newNode = new Node(newItem)
+            let currNode = this.find(item)
+            newNode.next = currNode.next
+            currNode.next = newNode
+        }
+
+        remove(item){
+            let prevNode = this.findPrev(item)
+            let currNode = this.find(item)
+            if( prevNode.next !== null ){
+                prevNode.next = currNode.next               
+                currNode.next = null
+            }
+            
+        }
+
+        findPrev(item){
+            let currNode = this.header
+            while(currNode.next !== null && currNode.next.value !== item){
+                currNode = currNode.next
+            }
+            return currNode
+        }
+
+        display(){
+            let currNode = this.header
+            while(currNode.next !== null){
+                currNode = currNode.next
+                console.log(currNode.value)
+            }
+        }
+
+    }
+  
+    let myList = new LinkList()
+    myList.insert("A","head")
+    myList.insert("B","A")
+    myList.insert("C","B")
+    myList.display()
+    myList.remove("B")
+    myList.remove("C")
+    myList.insert("D","A")
+    myList.display()
+    </script>
+</body>
+
+</html>

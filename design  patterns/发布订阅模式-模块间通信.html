@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>   
+</head>
+
+<body>
+    <button id="count">click</button>
+    <div id="show"></div>
+    <script>
+    let Event = (function(){
+
+        let clientList = {},
+            listen,
+            trigger,
+            remove;
+
+        listen = function(key,fn){
+            if( !clientList[key] ){
+                clientList[key] = [];
+            }
+            clientList[key].push( fn )
+        };
+
+        trigger = function(){
+            let key = Array.prototype.shift.call(arguments),
+                fns = clientList[key];
+
+            if( !fns || fns.length === 0){
+                return false;
+            }
+
+            for(let i = 0,fn;fn = fns[i++];){
+                fn.apply(this,arguments);
+            }
+        }
+
+        remove = function(key,fn){
+            let fns = clientList[key];
+
+            if( !fns ){
+                return false;
+            }
+
+            if( !fn ){
+                fns && ( fns.length = 0 )
+            }else{
+                for (let i = fns.length - 1; i >= 0; i--) {
+                    if(fns[i] === fn){
+                       fns.splice(i,1);
+                    }
+                }
+            }
+        }
+
+        return {
+            listen:listen,
+            trigger:trigger,
+            remove:remove
+        }
+
+    })();
+
+    let a = (function(){
+        let count = 0,
+            button = document.getElementById("count");
+
+        button.onclick = function(){
+            Event.trigger("add", count++ );
+        }
+    })()
+
+    let b = (function(){
+        let div = document.getElementById("show");
+
+        Event.listen("add",function(count){
+            div.innerHTML = count;
+        })
+    })()
+
+    </script>
+</body>
+
+</html>

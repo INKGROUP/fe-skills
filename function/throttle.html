@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /*第一种方案*/
+    timer = null;
+    let throttle = function() {
+        console.log("~~~~~~~~~")
+        console.log(`timer:${timer}`)
+        if (timer) {
+            //clearTimeout(timer);-----在操作结束后的1s内输出onresize
+            return false; //-----每隔1s输出onresize
+        }
+
+        timer = setTimeout(function() {
+            timer = null;
+            console.log("onresize")
+        }, 1000)
+    }
+    //window.onresize = throttle
+    //window.addEventListener("resize",throttle,false);		
+
+    /*第二种方案*/
+
+    let throttle2 = function(fn, interval) {
+        let _self = fn,
+            timer,
+            firstTime = true;
+
+        return function() {
+            let args = arguments,
+                _me = this;
+
+            if (firstTime) {
+                _self.apply(_me, args);
+                return firstTime = false;                
+            }
+
+            if (timer) {
+                return false;
+            }
+
+            timer = setTimeout(function() {
+                clearTimeout(timer);
+                timer = null;
+                _self.apply(_me, args);
+            }, interval || 500);
+
+        }
+
+    }
+
+   
+    window.onresize = throttle2(function() {
+        console.log("throttle2")
+    }, 1000)
+
+  
+
+    //优化方案
+    function throttleFn(fn, interval){
+        let _timer = null;          
+
+        return function(args){
+            let _this = this;           
+            if( _timer ){
+                return false;
+            }
+            clearTimeout(_timer);
+            _timer = setTimeout(function(){              
+                _timer = null;
+                fn.apply(_this,[args]);
+            }, interval)
+        }
+
+        _timer = null;
+    }
+    
+    function inputValue(content){
+        console.log(content)
+    }
+
+    let throttleInput = throttleFn(inputValue, 1000);
+
+    document.addEventListener('click',function(e){
+        throttleInput(e.clientX)
+    })
+  
+    </script>
+</body>
+
+</html>

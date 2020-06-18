@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>debounce</title>
+</head>
+
+<body>
+    <div><input type="text" id="username" name=""></div>
+    <input type="tel" id="tel" name="">
+    <input type="tel" id="num" name="">
+    <script type="text/javascript">
+    function debounce(fn, intreval){        
+        let _timer = null;
+        return function(args){             
+            let _fn = fn;
+            let _this = this;
+
+            if( _timer ){
+                clearTimeout( _timer )
+            }
+            _timer = setTimeout(function(){  
+                _fn.call(_this, args);
+            }, intreval)
+        }
+    }
+
+    function inputVal(content){
+        console.log('username:'+content)
+    }
+
+    let inputUser = debounce(inputVal, 500);
+
+    document.getElementById('username').addEventListener('keyup',function(e){
+        inputUser(e.target.value)
+    })
+
+    //第二种方案
+    function debounceNew(fun, delay){
+        return function( args ){   
+            let that =  this;
+            let _args = args;
+            clearTimeout( fun.id )
+            fun.id = setTimeout( function(){
+                fun.call(that, _args)
+            }, delay)
+        }
+    }
+   
+    function ajax(content){
+        console.log(`ajaxcontent:${content}`)
+    }
+
+    let debounceAjax = debounceNew(ajax, 500)
+
+    document.getElementById('tel').addEventListener('keyup', function(e){
+        debounceAjax(e.target.value)
+    })
+
+ 
+
+    </script>
+</body>
+
+</html>

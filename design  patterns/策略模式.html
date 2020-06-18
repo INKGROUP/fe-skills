@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="position:absolute;background:red" id="div">div</div>
+    <div>
+        <form id="registerForm">
+            username:<input type="text" name="username">
+            password:<input type="password" name="password">
+            tel:<input type="tel" name="tel">
+        </form>
+    </div>
+    <script type="text/javascript">
+        //v1.0
+        // let performanceS = ( salary ) => {
+        //     return salary * 4
+        // }
+
+        // let performanceA = ( salary ) => {
+        //     return salary * 3
+        // }
+
+        // let performanceB = ( salary ) => {
+        //     return salary * 2
+        // }
+
+        // let calaculateBonus = ( performanceLevel, salary ) => {
+        //     if( performanceLevel == "S" ){
+        //         return performanceS( salary );
+        //     }
+
+        //     if( performanceLevel == "A" ){
+        //         return performanceA( salary );
+        //     }
+
+        //     if( performanceLevel == "B" ){
+        //         return performanceB( salary );
+        //     }
+        // }
+
+        //v2.0--传统类型的策略模式
+        let performanceS = function(){}
+        performanceS.prototype.calculate = function( salary ){
+            return salary * 4;
+        }
+
+        let performanceA = function(){}
+        performanceA.prototype.calculate = function( salary ){
+            return salary * 3;
+        }
+
+        let performanceB = function(){}
+        performanceB.prototype.calculate = function( salary ){
+            return salary * 2;
+        }
+
+        let Bonus = function(){
+            this.salary = null;
+            this.strategy = null;
+        }
+
+        Bonus.prototype.setSalary = function( salary ){
+            this.salary = salary;
+        }
+      
+        Bonus.prototype.setStrategy = function( strategy ){
+            this.strategy = strategy;
+        }
+
+        Bonus.prototype.getBonus = function() {
+            return this.strategy.calculate( this.salary );
+        }
+
+        var bonus = new Bonus();
+        bonus.setSalary(1000);
+        bonus.setStrategy( new performanceS() )
+        bonus.getBonus();
+
+        //v3.0-JAVASCRIPT的简单策列模式
+        let strategy = {
+            "S" : function( salary ){
+                return salary * 4;
+            },
+            "A" : function( salary ){
+                return salary * 3
+            },
+            "B" : function( salary ){
+                return salary * 2
+            }
+        }
+
+        let calculateBouns = function(strategyLevel, salary){
+            return strategy[strategyLevel](salary);
+        } 
+
+
+
+        //缓动算法
+        let tween = {
+            linear:function( t, b, c, d){
+                return c*t/d + b;
+            },
+            easeIn:function( t, b, c, d){
+                return  c * ( t /= d ) * t + b;
+            },
+            strongEaseIn:function( t, b, c, d){
+                return c*t/d + b;
+            },
+            strongEaseOut: function(t, b, c, d){ 
+                return c * ( ( t = t / d - 1) * t * t * t * t + 1 ) + b; 
+            }, 
+            sineaseIn: function( t, b, c, d ){ 
+                return c * ( t /= d) * t * t + b; 
+            }, 
+            sineaseOut: function(t,b,c,d){ 
+                return c * ( ( t = t / d - 1) * t * t + 1 ) + b; 
+            } 
+        }
+
+        let Animate = function( dom ){
+            this.dom = dom;
+            this.startTime = 0;
+            this.startPos = 0;
+            this.endPos = 0;
+            this.propertyName = null;
+            this.easing = null;
+            this.duration = null;
+        }
+
+        Animate.prototype.start = function( propertyName, endPos, duration, easing){
+            this.startTime = +new Date;
+            this.startPos = this.dom.getBoundingClientRect()[ propertyName ];
+            this.propertyName = propertyName;
+            this.endPos = endPos;
+            this.duration = duration;
+            this.easing = tween[ easing ];
+
+            let self = this;
+            let timeId = setInterval(function(){
+                if( self.step() === false ){
+                    clearInterval( timeId )
+                }
+            },19)
+        }
+
+        Animate.prototype.step = function(){
+            let t = +new Date;
+            if( t >= this.startTime + this.duration ){
+                this.update( this.endPos );
+                return false;
+            }
+            let pos = this.easing( t - this.startTime, this.startPos, this.endPos - this.startPos, this.duration);
+            this.update( pos )
+        }
+
+        Animate.prototype.update = function( pos ){
+            this.dom.style[ this.propertyName ] = pos + 'px';
+        }
+
+        let div = document.getElementById( 'div' );
+        let animate = new Animate( div )
+
+        animate.start('left', 500, 1000, 'sineaseOut')
+
+
+        //表单校验
+        let formStrategies = {
+            isNotEmpty:function(value, errorMsg){
+                if( value === '' ){
+                    return errorMsg;
+                }
+            },
+            minLenth:function(value, length, errorMsg){
+                if( value.length < length ){
+                    return errorMsg
+                }
+            },
+            isMobile:function(value, errorMsg){
+                if( !/(^1[3|5|8][0-9]{9}$)/.test(value) ){
+                    return errorMsg
+                }
+            }
+        }
+
+        let validataFunc = function(){
+            let validator = new Validator();
+
+            validator.add( registerForm.userName, 'isNotEmpty', '用户名不能为空' );
+            validator.add( registerForm.password, 'minLenth:6', '密码长度不能少于6位' );
+            validator.add( registerForm.phoneNumber, 'isMobile', '手机号码格式不正确' );
+
+            let errorMsg = validator.start();
+            return errorMsg;
+        }
+
+        let registerForm = document.getElementById('registerForm');
+
+        registerForm.onsubmit = function(){
+            let errorMsg = validataFunc();
+            if( errorMsg ){
+                alert(errorMsg)
+                return false;
+            }
+        }
+
+        let Validator = function(){
+            this.cache = [];
+        }
+
+        Validator.prototype.add = function( dom, rule, errorMsg ){
+            let ary = rule.split(":");
+            
+        }
+            
+    </script>
+        
+        
+
+</body>
+
+</html>

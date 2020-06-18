@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /**      
+     * 模拟单链队列结构
+     */
+    class Queue{
+        construtor(){
+            this.queue = []
+        }
+
+        enQueue(item){
+            this.queue.push(item)
+        }
+
+        deQueue(item){
+            return this.queue.shift()
+        }
+
+        getHeader(){
+            return this.queue[0]
+        }
+
+        getLength(){
+            return this.queue.length
+        }
+
+        isEmpty(){
+            return this.getLength === 0
+        }
+    }
+  
+    </script>
+</body>
+
+</html>
