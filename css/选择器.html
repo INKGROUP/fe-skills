@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        p{margin: 0;}
+        .first {
+            width: 100px;
+            height: 100px;
+        }
+        .first p::first-letter{
+           font-size: 30px;           
+        }
+        .first p::first-line{
+            background-color: violet;
+        }
+
+        .second, .third,.fifth,.sixth,.seventh,.eighth{margin-top: 100px;}
+      
+        .second p:first-child{
+            background:yellowgreen
+        }
+        .second p:last-child{
+            background:yellowgreen
+        }
+
+        .third :first-of-type{
+            color:green;
+        }
+        .third p:first-of-type {
+            color:red;
+        }
+
+        .fifth p:last-of-type{
+            color:blue;
+        }
+
+        .sixth p:nth-child(1){
+            color:blueviolet;
+        }
+
+        .seventh p:nth-last-child(1){
+            color:firebrick 
+        }
+        .seventh p:nth-last-child(2n+1){
+            color:lime 
+        }
+        
+        .eighth p:nth-of-type(5){
+            color:blue
+        }
+
+        
+        .eighth p:nth-child(5){
+            color:yellowgreen
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- 伪元素 first-letter,first-line -->
+    <div class="first">   
+        <span>fdkfjalfjsdal</span>     
+        <p>this is the first item</p>
+        <p>this is the second item</p>      
+        <p>这是第一个中文段落</p>
+    </div>
+
+    <div class="second">   
+        <p>this is the first item</p>
+        <span>secondsecondsecond</span>         
+        <p>this is the second item</p>      
+        <p>这是第一个中文段落</p>        
+    </div>
+
+    <div class="third">   
+        <span>secondsecondsecond</span>         
+        <div><p>this is the first item</p></div>
+       
+        <p>this is the second item</p>      
+        <p>这是第一个中文段落</p>        
+    </div>
+
+    <div class="fifth">   
+        <span>secondsecondsecond</span>         
+        <div><p>this is the first item</p></div>
+       
+        <p>this is the second item</p>      
+        <p>这是第一个中文段落</p>        
+    </div>
+
+    <div class="sixth">   
+       
+        <span>secondsecondsecond</span>         
+        <div><p>this is the first item</p></div> 
+        <p>这是第一个中文段落</p>        
+        <p>this is the second item</p>   
+    </div>
+
+    <div class="seventh">   
+        <p>this is the second item</p>   
+        <span>secondsecondsecond</span>         
+        <div><p>this is the first item</p></div> 
+        <p>这是第一个中文段落</p>  
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p>       
+    </div>
+
+    <div class="eighth">   
+        <p>this is the second item</p>   
+        <span>secondsecondsecond</span>         
+        <div><p>this is the first item</p></div> 
+        <p>这是第一个中文段落</p>  
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第111一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p> 
+        <p>这是第一个中文段落</p>       
+    </div>
+</body>
+</html>

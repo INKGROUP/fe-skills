@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        
+        let data = [
+            { pid: 1, id: 2, name: 'w1' },
+            { pid: 2, id: 5, name: 'w4' },
+            { pid: 1, id: 3, name: 'w2' },
+            { pid: 2, id: 4, name: 'w3' },
+            { pid: 3, id: 6, name: 'w5' },
+            { pid: null, id: 1, name: 'w' },
+        ]
+
+        let tree = {}
+
+        data.forEach((item, index) => {
+            if (item.pid === null) {
+                tree = item;
+            } else {
+                let _item = item;
+                let _pid = item.pid
+                let parentdata = data.find((item) => {
+                    return item.id == _pid
+                })
+
+                if (!parentdata.left) {
+                    parentdata.left = item
+                } else {
+                    parentdata.right = item
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

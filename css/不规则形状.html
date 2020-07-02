@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      
+        .oval{
+            background:red;width:100px;height: 100px;
+            border-radius: 50px 100px;
+        }
+        .sector{           
+            border: 50px solid transparent;
+            border-radius: 100px;
+            border-top-color: yellowgreen;
+            width: 0;       
+            
+        }
+        .sector2{           
+            border: 100px solid transparent;
+            border-radius: 100px;
+            border-top-color: yellowgreen;
+            width: 0;     
+            background-color: red;       
+        }
+        .sector3{           
+            border: 100px solid transparent;
+            border-radius: 100px;
+            border-top-color: yellowgreen;
+            border-left-color: yellow;
+            border-right-color:purple;
+            border-bottom-color: aqua;
+            width: 0;     
+               
+        }
+        .sector4{           
+            border: 100px solid transparent;
+            border-radius: 100px;
+            border-top-color: yellowgreen;
+            border-left-color: yellow;
+            border-right-color:purple;
+            border-bottom-color: aqua;
+            border-left-width:10px;
+            width: 0;     
+               
+        }
+        .sector5{           
+            border: 100px solid transparent;
+            border-radius: 100px;
+            border-top-color: yellowgreen;
+            border-left-color: yellow;
+            border-right-color:purple;
+            border-bottom-color: aqua;
+            border-top-width:10px;
+            width: 0;     
+               
+        }
+
+        .pie{
+            position: relative;
+            padding: 0;
+            width:100px;height: 100px;
+            border-radius: 100%;
+            list-style: none;
+            overflow: hidden;
+            transform: rotate(0deg);
+        }
+        .slice{
+            overflow: hidden;
+            position: absolute;
+            top:0;
+            right:0;
+            width:50%;
+            height: 50%;
+            transform-origin: 0% 100%;
+        }
+
+        .s-1{
+            background: yellowgreen;
+            transform: rotate(-36deg) skewY(-54deg);
+        }
+        .s-2{
+            background: blue;
+            transform: rotate(-72deg) skewY(-54deg);
+        }
+        .s-3{
+            background: red;
+            transform: rotate(-108deg) skewY(-54deg);
+        }
+        .s-4{
+            background: gray;
+            transform: rotate(-144deg) skewY(-54deg);
+        }
+    </style>
+    
+</head>
+<body>
+    <section class="content">
+    <!-- 椭圆 -->
+    <div class="oval"></div>
+
+    <div class="sector"></div>
+    <div class="sector2"></div>
+    <div class="sector3"></div>
+    <div class="sector4"></div>
+    <div class="sector5"></div>
+    <!-- 扇形 -->
+    <ul class="pie">
+        <li  class="s-1 slice"></li>
+        <li  class="s-2 slice"></li>
+        <li  class="s-3 slice"></li>
+        <li  class="s-4 slice"></li>
+    </ul>
+</section>
+</body>
+</html>
